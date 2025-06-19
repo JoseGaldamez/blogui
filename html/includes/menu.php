@@ -15,7 +15,7 @@
                 <li><a href="blog.php" class="text-white/90 hover:text-white font-medium transition">Artículos</a></li>
                 <li><a href="contact.php" class="text-white/90 hover:text-white font-medium transition">Contacto</a></li>
                 <li>
-                    <a href="admin/login.php" class="bg-white/90 hover:bg-pink-200 text-pink-600 font-bold rounded-full px-6 py-2 shadow transition">
+                    <a href="/login.php" class="bg-white/90 hover:bg-pink-200 text-pink-600 font-bold rounded-full px-6 py-2 shadow transition">
                         Iniciar sesión
                     </a>
                 </li>
@@ -38,7 +38,7 @@
             <li><a href="blog.php" class="block text-white/90 hover:text-white font-medium transition">Artículos</a></li>
             <li><a href="contact.php" class="block text-white/90 hover:text-white font-medium transition">Contacto</a></li>
             <li>
-                <a href="admin/login.php" class="block bg-white/90 hover:bg-pink-200 text-pink-600 font-bold rounded-full px-6 py-2 shadow transition text-center">
+                <a href="/login.php" class="block bg-white/90 hover:bg-pink-200 text-pink-600 font-bold rounded-full px-6 py-2 shadow transition text-center">
                     Iniciar sesión
                 </a>
             </li>

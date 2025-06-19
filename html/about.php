@@ -1,3 +1,5 @@
+<?php include_once './server/connection.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
     <?php include 'includes/head.php'; ?>

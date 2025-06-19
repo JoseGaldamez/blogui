@@ -6,6 +6,8 @@ services:
             - "8080:80"
         volumes:
             - ./html:/var/www/html
+        entrypoint: >
+            bash -c "docker-php-ext-install mysqli && apache2-foreground"
     mysql:
         image: mysql:8.0
         container_name: mysql

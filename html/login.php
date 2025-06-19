@@ -5,23 +5,8 @@ if (isset($_SESSION['user_id'])) {
     return header('Location: /admin/dashboard.php');
 }
 
-$error = '';
+include_once './server/connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Datos dummy
-    $usuario = $_POST['usuario'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    // Puedes cambiar estos valores por los que quieras
-    if ($usuario === 'admin' && $password === '1234') {
-        $_SESSION['user_id'] = 1;
-        $_SESSION['username'] = $usuario;
-        header('Location: /admin/dashboard.php');
-        exit();
-    } else {
-        $error = 'Usuario o contraseña incorrectos.';
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,9 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-gradient-to-br from-blue-800 via-purple-900 to-pink-900 min-h-screen flex items-center justify-center">
     <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar sesión</h1>
-        <?php if ($error): ?>
-            <div class="mb-4 text-red-600 text-center font-semibold"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
+
         <form method="POST" class="space-y-6">
             <div>
                 <label for="usuario" class="block text-gray-700 font-semibold mb-2">Usuario</label>
