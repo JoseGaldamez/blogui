@@ -20,6 +20,29 @@ $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CH
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 $password = $_POST['password'] ?? ''; // La contraseña no se sanea con FILTER_SANITIZE_FULL_SPECIAL_CHARS antes de hashearla
 
+
+// Verificar si el correo electrónico ya está registrado
+// Puedes hacer esto antes de insertar para evitar duplicados
+
+$sql_check_email = "SELECT COUNT(*) FROM users WHERE email = ?";
+$stmt_check_email = $conn->prepare($sql_check_email);
+if ($stmt_check_email) {
+    $stmt_check_email->bind_param("s", $email);
+    $stmt_check_email->execute();
+    $stmt_check_email->bind_result($count);
+    $stmt_check_email->fetch();
+    $stmt_check_email->close();
+
+    if ($count > 0) {
+        echo "{ \"error\": \"El correo electrónico ya está registrado.\" }";
+        exit();
+    }
+} else {
+    error_log("Error al preparar la consulta de verificación de email: " . $conn->error);
+    echo "{ \"error\": \"Error interno del servidor.\" }";
+    exit();
+}
+
 // 4. Validar los datos
 // Puedes añadir más validaciones según tus necesidades (longitud mínima, etc.)
 if (empty($username) || empty($email) || empty($password)) {
@@ -45,9 +68,10 @@ $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 if ($stmt = $conn->prepare($sql)) {
     // 'sss' indica que los tres parámetros son de tipo string
     $stmt->bind_param("sss", $username, $email, $hashed_password);
-
-    // Ejecutar la sentencia
-    if ($stmt->execute()) {
+    
+    try {
+        // Ejecutar la sentencia
+        if ($stmt->execute()) {
         // Inserción exitosa
         echo "{ \"success\": \"Usuario creado exitosamente.\" }";
         exit();
@@ -62,9 +86,17 @@ if ($stmt = $conn->prepare($sql)) {
         }
         exit();
     }
-
     // Cerrar la sentencia preparada
     $stmt->close();
+
+    } catch (\Throwable $th) {
+        //throw $th;
+        error_log("Error inesperado: " . $th->getMessage());
+        echo "{ \"error\": \"Error inesperado.\" }";
+    }
+    
+
+    
 
 } else {
     // Error al preparar la consulta

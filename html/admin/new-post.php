@@ -92,12 +92,10 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    console.log('Imagen cargada:', e.target.result);
                     const previewImage = document.getElementById('previewImage');
                     previewImage.src = e.target.result;
                     previewImage.classList.remove('hidden');
                     document.getElementById('dropzone-label').classList.add('hidden');
-                    
                 };
                 reader.readAsDataURL(file);
             }
